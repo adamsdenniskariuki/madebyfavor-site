@@ -102,23 +102,35 @@
     .header-actions {
       display: flex;
       align-items: center;
+      gap: 12px;
+    }
+    .preference-controls {
+      display: flex;
       gap: 8px;
     }
     .toggle {
-      min-height: 36px;
-      padding: 0 12px;
+      display: grid;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      place-items: center;
       border: 1px solid var(--cp-border);
       border-radius: 0.625rem;
       background: var(--cp-surface);
       color: var(--cp-text-muted);
       cursor: pointer;
-      font: inherit;
-      font-size: .82rem;
-      font-weight: 700;
+      font-family: "Segoe UI Symbol", "Segoe UI", sans-serif;
+      font-size: 1.05rem;
     }
     .toggle:hover {
       border-color: var(--cp-border-strong);
+      background: var(--cp-accent-soft);
       color: var(--cp-text);
+    }
+    .toggle[aria-pressed="true"] {
+      background: var(--cp-surface);
+      color: var(--cp-accent);
+      border-color: var(--cp-accent);
     }
     .brand-mark {
       display: grid;
@@ -311,6 +323,7 @@
     html[data-style="technical"] .brand-mark,
     html[data-style="technical"] .button,
     html[data-style="technical"] .toggle,
+    html[data-style="technical"] .preference-controls,
     html[data-style="technical"] .tag,
     html[data-style="technical"] .tile {
       border-radius: 0;
@@ -338,7 +351,7 @@
       .shell { width: min(100% - 28px, 680px); }
       .site-header { min-height: 68px; }
       .nav-link { display: none; }
-      .toggle { padding-inline: 9px; }
+      .header-actions { gap: 6px; }
       main { padding-top: 48px; }
       .hero { grid-template-columns: 1fr; gap: 48px; min-height: auto; }
       h1 { font-size: clamp(2.9rem, 16vw, 4.5rem); }
@@ -366,8 +379,10 @@
     </a>
     <div class="header-actions">
       <a class="nav-link" href="#apps">Our apps</a>
-      <button class="toggle" id="style-toggle" type="button" aria-label="Switch visual style">Crisp style</button>
-      <button class="toggle" id="theme-toggle" type="button" aria-label="Switch colour theme">Dark theme</button>
+      <div class="preference-controls" aria-label="Display preferences">
+        <button class="toggle" id="style-toggle" type="button" aria-label="Use crisp visual style" title="Visual style">▦</button>
+        <button class="toggle" id="theme-toggle" type="button" aria-label="Use dark theme" title="Colour theme">◐</button>
+      </div>
     </div>
   </header>
 
@@ -448,8 +463,12 @@
       root.dataset.style = savedStyle;
 
       const updateLabels = () => {
-        themeButton.textContent = root.dataset.theme === "dark" ? "Light theme" : "Dark theme";
-        styleButton.textContent = root.dataset.style === "technical" ? "Warm style" : "Crisp style";
+        const dark = root.dataset.theme === "dark";
+        const technical = root.dataset.style === "technical";
+        themeButton.setAttribute("aria-label", dark ? "Use light theme" : "Use dark theme");
+        themeButton.setAttribute("aria-pressed", String(dark));
+        styleButton.setAttribute("aria-label", technical ? "Use warm visual style" : "Use crisp visual style");
+        styleButton.setAttribute("aria-pressed", String(technical));
       };
 
       themeButton.addEventListener("click", () => {
