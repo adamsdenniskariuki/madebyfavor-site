@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en-GB" data-theme="ink" data-mode="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found — Made by Favor</title>
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script>
+    (function () {
+      var d = document.documentElement, m = "system", t = "ink";
+      try { m = localStorage.getItem("mbf-mode") || m; t = localStorage.getItem("mbf-theme") || t; } catch (e) {}
+      if (["system", "light", "dark"].indexOf(m) < 0) m = "system";
+      if (["ink", "forest", "ember"].indexOf(t) < 0) t = "ink";
+      d.dataset.mode = m;
+      d.dataset.theme = t;
+      d.dataset.scheme = m === "dark" || (m === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    })();
+  </script>
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="Made by Favor — home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect width="32" height="32" rx="8" fill="currentColor"/>
+          <path class="mark-f" d="M12.5 25V13a5 5 0 0 1 5-5H21M8.5 15.5h10" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect class="mark-dot" x="19" y="19.5" width="5.5" height="5.5" rx="1.5"/>
+        </svg>
+        <span class="brand-name">Made by Favor</span>
+      </a>
+    </div>
+  </header>
+  <main id="main" class="shell">
+    <div class="page-hero doc">
+      <p class="eyebrow">404</p>
+      <h1>We could not find that page</h1>
+      <p>The link may be out of date. Try the <a href="/">home page</a>, or one of our apps: <a href="https://langto.madebyfavor.com/">Langto</a>, <a href="https://playto.madebyfavor.com/">Playto</a>, <a href="https://devprep.madebyfavor.com/">DevPREP</a>, <a href="https://verserecall.madebyfavor.com/">Verse Recall</a> or <a href="https://sortile.madebyfavor.com/">Sortile</a>.</p>
+    </div>
+  </main>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -1,490 +1,404 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB" data-theme="ink" data-mode="system">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Made by Favor creates thoughtful digital products and helps organisations turn useful ideas into clear, reliable software.">
-  <title>Made by Favor — Thoughtful digital products and consultancy</title>
+  <title>Made by Favor — Software consultancy for fast, accessible web apps</title>
+  <meta name="description" content="Made by Favor is an independent software consultancy. We help teams plan, design and build fast, accessible web apps and PWAs — and we run five live apps of our own.">
+  <link rel="canonical" href="https://madebyfavor.com/">
+  <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f1015" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="mask-icon" href="/favicon.svg" color="#3a36b8">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Made by Favor">
+  <meta property="og:url" content="https://madebyfavor.com/">
+  <meta property="og:title" content="Made by Favor — Software consultancy">
+  <meta property="og:description" content="We help teams plan, design and build fast, accessible web apps — and we run five live apps of our own.">
+  <meta property="og:image" content="https://madebyfavor.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Made by Favor — software consultancy for fast, accessible web apps">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary_large_image">
   <script>
-    (() => {
-      const param = new URLSearchParams(window.location.search).get("scoutTheme");
-      const theme =
-        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-      document.documentElement.setAttribute("data-theme", theme);
+    (function () {
+      var d = document.documentElement, m = "system", t = "ink";
+      try { m = localStorage.getItem("mbf-mode") || m; t = localStorage.getItem("mbf-theme") || t; } catch (e) {}
+      if (["system", "light", "dark"].indexOf(m) < 0) m = "system";
+      if (["ink", "forest", "ember"].indexOf(t) < 0) t = "ink";
+      d.dataset.mode = m;
+      d.dataset.theme = t;
+      d.dataset.scheme = m === "dark" || (m === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
     })();
   </script>
-  <style>
-    :root {
-      color-scheme: light;
-      --cp-bg: #f7f4ef;
-      --cp-bg-elevated: #fcfbf8;
-      --cp-surface: #ffffff;
-      --cp-surface-soft: #f5f5f5;
-      --cp-border: #dedede;
-      --cp-border-strong: #919191;
-      --cp-text: #242424;
-      --cp-text-muted: #5c5c5c;
-      --cp-text-soft: #6f6f6f;
-      --cp-accent: #b11f4b;
-      --cp-accent-hover: #9a1a41;
-      --cp-accent-soft: rgba(177, 31, 75, 0.08);
-      --cp-accent-fg: #ffffff;
-      --cp-success: #16a34a;
-      --cp-danger: #dc2626;
-      --cp-warning: #f59e0b;
-      --cp-link: #0078d4;
-      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
-      --cp-overlay: rgba(255, 255, 255, 0.8);
-      --cp-panel: rgba(255, 255, 255, 0.86);
-      --cp-panel-strong: rgba(255, 255, 255, 0.96);
-      --cp-sheen: rgba(255, 255, 255, 0.55);
-      --cp-highlight: rgba(177, 31, 75, 0.12);
-    }
-    html[data-theme="dark"] {
-      color-scheme: dark;
-      --cp-bg: #3d3b3a;
-      --cp-bg-elevated: #343231;
-      --cp-surface: #292929;
-      --cp-surface-soft: #2e2e2e;
-      --cp-border: #474747;
-      --cp-border-strong: #5f5f5f;
-      --cp-text: #dedede;
-      --cp-text-muted: #919191;
-      --cp-text-soft: #b0b0b0;
-      --cp-accent: #fd8ea1;
-      --cp-accent-hover: #fb7b91;
-      --cp-accent-soft: rgba(253, 142, 161, 0.14);
-      --cp-accent-fg: #1a1a1a;
-      --cp-success: #4ade80;
-      --cp-danger: #f87171;
-      --cp-warning: #fbbf24;
-      --cp-link: #4da6ff;
-      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
-      --cp-overlay: rgba(41, 41, 41, 0.88);
-      --cp-panel: rgba(41, 41, 41, 0.72);
-      --cp-panel-strong: rgba(41, 41, 41, 0.96);
-      --cp-sheen: rgba(255, 255, 255, 0.04);
-      --cp-highlight: rgba(253, 142, 161, 0.12);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-width: 320px;
-      background: var(--cp-bg);
-      color: var(--cp-text);
-      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
-      line-height: 1.55;
-    }
-    a { color: inherit; }
-    .shell {
-      width: min(1120px, calc(100% - 40px));
-      margin: 0 auto;
-    }
-    .site-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 76px;
-      border-bottom: 1px solid var(--cp-border);
-    }
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--cp-text);
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: .01em;
-      text-decoration: none;
-    }
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .preference-controls {
-      display: flex;
-      gap: 8px;
-    }
-    .toggle {
-      display: grid;
-      width: 38px;
-      height: 38px;
-      padding: 0;
-      place-items: center;
-      border: 1px solid var(--cp-border);
-      border-radius: 0.625rem;
-      background: var(--cp-surface);
-      color: var(--cp-text-muted);
-      cursor: pointer;
-      font-family: "Segoe UI Symbol", "Segoe UI", sans-serif;
-      font-size: 1.05rem;
-    }
-    .toggle:hover {
-      border-color: var(--cp-border-strong);
-      background: var(--cp-accent-soft);
-      color: var(--cp-text);
-    }
-    .toggle[aria-pressed="true"] {
-      background: var(--cp-surface);
-      color: var(--cp-accent);
-      border-color: var(--cp-accent);
-    }
-    .brand-mark {
-      display: grid;
-      width: 36px;
-      height: 36px;
-      place-items: center;
-      border-radius: 0.625rem;
-      background: var(--cp-accent);
-      color: var(--cp-accent-fg);
-      font-size: 1.05rem;
-      font-weight: 800;
-    }
-    .nav-link {
-      color: var(--cp-text-muted);
-      font-size: .95rem;
-      font-weight: 600;
-      text-decoration: none;
-    }
-    .nav-link:hover { color: var(--cp-accent); }
-    main { padding: 72px 0 32px; }
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
-      align-items: center;
-      gap: 64px;
-      min-height: 470px;
-    }
-    .eyebrow {
-      margin: 0 0 16px;
-      color: var(--cp-accent);
-      font-size: .82rem;
-      font-weight: 800;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-    }
-    h1 {
-      max-width: 720px;
-      margin: 0;
-      font-size: clamp(3rem, 7vw, 5.75rem);
-      font-weight: 760;
-      letter-spacing: -.065em;
-      line-height: .98;
-    }
-    .hero-copy {
-      max-width: 640px;
-      margin: 28px 0 0;
-      color: var(--cp-text-muted);
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-    }
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 32px;
-    }
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 0 20px;
-      border: 1px solid var(--cp-accent);
-      border-radius: 0.625rem;
-      background: var(--cp-accent);
-      color: var(--cp-accent-fg);
-      font-weight: 700;
-      text-decoration: none;
-    }
-    .button:hover { background: var(--cp-accent-hover); }
-    .button.secondary {
-      border-color: var(--cp-border);
-      background: var(--cp-surface);
-      color: var(--cp-text);
-    }
-    .button.secondary:hover {
-      border-color: var(--cp-border-strong);
-      background: var(--cp-surface-soft);
-    }
-    .puzzle-mark {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      width: min(100%, 330px);
-      aspect-ratio: 1;
-      margin-inline: auto;
-      padding: 28px;
-      border: 1px solid var(--cp-border);
-      border-radius: 16px;
-      background: var(--cp-surface);
-      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
-      transform: rotate(2deg);
-    }
-    .tile {
-      border-radius: 0.625rem;
-      background: var(--cp-accent-soft);
-    }
-    .tile.strong { background: var(--cp-accent); }
-    .tile.open {
-      border: 1px dashed var(--cp-border-strong);
-      background: var(--cp-bg);
-    }
-    .work { padding: 96px 0; }
-    .section-heading {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 28px;
-    }
-    .section-heading h2 {
-      margin: 0;
-      font-size: clamp(2rem, 4vw, 3rem);
-      letter-spacing: -.04em;
-      line-height: 1.05;
-    }
-    .section-heading p {
-      max-width: 460px;
-      margin: 0;
-      color: var(--cp-text-muted);
-    }
-    .app-card {
-      display: grid;
-      grid-template-columns: 96px minmax(0, 1fr) auto;
-      align-items: center;
-      gap: 24px;
-      padding: 28px;
-      border: 1px solid var(--cp-border);
-      border-radius: 16px;
-      background: var(--cp-surface);
-      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
-    }
-    .app-icon {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 5px;
-      width: 96px;
-      height: 96px;
-      padding: 15px;
-      border-radius: 16px;
-      background: var(--cp-bg-elevated);
-    }
-    .app-icon span { border-radius: 0.625rem; background: var(--cp-accent-soft); }
-    .app-icon span:first-child, .app-icon span:last-child { background: var(--cp-accent); }
-    .app-details h3 { margin: 0; font-size: 1.6rem; letter-spacing: -.025em; }
-    .app-details p { max-width: 560px; margin: 6px 0 0; color: var(--cp-text-muted); }
-    .app-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-    .tag {
-      padding: 5px 9px;
-      border-radius: 0.625rem;
-      background: var(--cp-accent-soft);
-      color: var(--cp-accent);
-      font-size: .78rem;
-      font-weight: 700;
-    }
-    .contact {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
-      gap: 32px;
-      margin: 0 0 80px;
-      padding: 40px;
-      border-radius: 16px;
-      background: var(--cp-bg-elevated);
-      border: 1px solid var(--cp-border);
-    }
-    .contact h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.75rem); letter-spacing: -.04em; }
-    .contact p { margin: 8px 0 0; color: var(--cp-text-muted); }
-    .site-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      min-height: 88px;
-      border-top: 1px solid var(--cp-border);
-      color: var(--cp-text-muted);
-      font-size: .9rem;
-    }
-    .footer-links { display: flex; flex-wrap: wrap; gap: 20px; }
-    .footer-links a:hover { color: var(--cp-accent); }
-    :focus-visible { outline: 3px solid var(--cp-accent); outline-offset: 3px; }
-
-    html[data-style="technical"] body {
-      letter-spacing: .005em;
-    }
-    html[data-style="technical"] .brand-mark,
-    html[data-style="technical"] .button,
-    html[data-style="technical"] .toggle,
-    html[data-style="technical"] .preference-controls,
-    html[data-style="technical"] .tag,
-    html[data-style="technical"] .tile {
-      border-radius: 0;
-    }
-    html[data-style="technical"] .app-card,
-    html[data-style="technical"] .contact,
-    html[data-style="technical"] .puzzle-mark,
-    html[data-style="technical"] .app-icon {
-      border-radius: 0;
-      box-shadow: none;
-    }
-    html[data-style="technical"] h1,
-    html[data-style="technical"] .section-heading h2,
-    html[data-style="technical"] .contact h2 {
-      letter-spacing: -.035em;
-    }
-    html[data-style="technical"] .puzzle-mark {
-      transform: none;
-    }
-    html[data-style="technical"] .eyebrow {
-      font-family: Consolas, "Courier New", Courier, monospace;
-    }
-
-    @media (max-width: 760px) {
-      .shell { width: min(100% - 28px, 680px); }
-      .site-header { min-height: 68px; }
-      .nav-link { display: none; }
-      .header-actions { gap: 6px; }
-      main { padding-top: 48px; }
-      .hero { grid-template-columns: 1fr; gap: 48px; min-height: auto; }
-      h1 { font-size: clamp(2.9rem, 16vw, 4.5rem); }
-      .puzzle-mark { width: min(82vw, 300px); }
-      .work { padding: 80px 0; }
-      .section-heading { display: block; }
-      .section-heading p { margin-top: 12px; }
-      .app-card { grid-template-columns: 72px minmax(0, 1fr); padding: 20px; }
-      .app-icon { width: 72px; height: 72px; padding: 11px; }
-      .app-card .button { grid-column: 1 / -1; width: 100%; }
-      .contact { grid-template-columns: 1fr; padding: 28px; }
-      .contact .button { width: 100%; }
-      .site-footer { align-items: flex-start; flex-direction: column; justify-content: center; padding: 24px 0; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-    }
-  </style>
+  <link rel="stylesheet" href="/src/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://madebyfavor.com/#org",
+        "name": "Made by Favor",
+        "url": "https://madebyfavor.com/",
+        "logo": "https://madebyfavor.com/logo.svg",
+        "image": "https://madebyfavor.com/og.png",
+        "email": "support@madebyfavor.com",
+        "description": "Independent software consultancy for product strategy, web and PWA apps, cloud delivery, AI-enabled features and accessibility.",
+        "knowsAbout": ["Product strategy", "Progressive web apps", "Web development", "Cloud delivery", "AI-enabled features", "Web accessibility"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://madebyfavor.com/#website",
+        "url": "https://madebyfavor.com/",
+        "name": "Made by Favor",
+        "publisher": { "@id": "https://madebyfavor.com/#org" },
+        "inLanguage": "en-GB"
+      },
+      {
+        "@type": "ItemList",
+        "name": "Apps by Made by Favor",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "item": { "@type": "WebApplication", "name": "Langto", "url": "https://langto.madebyfavor.com/", "applicationCategory": "EducationalApplication", "operatingSystem": "Any (web browser)", "creator": { "@id": "https://madebyfavor.com/#org" } } },
+          { "@type": "ListItem", "position": 2, "item": { "@type": "WebApplication", "name": "Playto", "url": "https://playto.madebyfavor.com/", "applicationCategory": "EducationalApplication", "operatingSystem": "Any (web browser)", "creator": { "@id": "https://madebyfavor.com/#org" } } },
+          { "@type": "ListItem", "position": 3, "item": { "@type": "WebApplication", "name": "DevPREP", "url": "https://devprep.madebyfavor.com/", "applicationCategory": "EducationalApplication", "operatingSystem": "Any (web browser)", "creator": { "@id": "https://madebyfavor.com/#org" } } },
+          { "@type": "ListItem", "position": 4, "item": { "@type": "WebApplication", "name": "Verse Recall", "url": "https://verserecall.madebyfavor.com/", "applicationCategory": "EducationalApplication", "operatingSystem": "Any (web browser)", "creator": { "@id": "https://madebyfavor.com/#org" } } },
+          { "@type": "ListItem", "position": 5, "item": { "@type": "WebApplication", "name": "Sortile", "url": "https://sortile.madebyfavor.com/", "applicationCategory": "GameApplication", "operatingSystem": "Any (web browser)", "creator": { "@id": "https://madebyfavor.com/#org" } } }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
-  <header class="shell site-header">
-    <a class="brand" href="#top" aria-label="Made by Favor home">
-      <span class="brand-mark" aria-hidden="true">F</span>
-      <span>Made by Favor</span>
-    </a>
-    <div class="header-actions">
-      <a class="nav-link" href="#apps">Our apps</a>
-      <div class="preference-controls" aria-label="Display preferences">
-        <button class="toggle" id="style-toggle" type="button" aria-label="Use crisp visual style" title="Visual style">▦</button>
-        <button class="toggle" id="theme-toggle" type="button" aria-label="Use dark theme" title="Colour theme">◐</button>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="Made by Favor — home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect width="32" height="32" rx="8" fill="currentColor"/>
+          <path class="mark-f" d="M12.5 25V13a5 5 0 0 1 5-5H21M8.5 15.5h10" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect class="mark-dot" x="19" y="19.5" width="5.5" height="5.5" rx="1.5"/>
+        </svg>
+        <span class="brand-name">Made by Favor</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="display-controls">
+        <button class="mode-toggle" id="mode-toggle" type="button" aria-label="Colour mode: System. Switch to Light.">
+          <span class="mode-label">System</span>
+        </button>
+        <fieldset class="theme-picker">
+          <legend class="visually-hidden">Colour theme</legend>
+          <label title="Ink theme"><input type="radio" name="theme" value="ink" checked><span class="swatch swatch-ink" aria-hidden="true"></span><span class="visually-hidden">Ink</span></label>
+          <label title="Forest theme"><input type="radio" name="theme" value="forest"><span class="swatch swatch-forest" aria-hidden="true"></span><span class="visually-hidden">Forest</span></label>
+          <label title="Ember theme"><input type="radio" name="theme" value="ember"><span class="swatch swatch-ember" aria-hidden="true"></span><span class="visually-hidden">Ember</span></label>
+        </fieldset>
       </div>
     </div>
   </header>
 
-  <main id="top" class="shell">
+  <main id="main">
     <section class="hero" aria-labelledby="hero-title">
-      <div>
-        <p class="eyebrow">Product studio &amp; consultancy</p>
-        <h1 id="hero-title">Useful software, thoughtfully made.</h1>
-        <p class="hero-copy">We create focused digital products and help organisations turn good ideas into clear, reliable software.</p>
-        <div class="hero-actions">
-          <a class="button" href="#apps">Explore our apps</a>
-          <a class="button secondary" href="mailto:support@madebyfavor.com">Work with us</a>
+      <div class="shell hero-grid">
+        <div>
+          <p class="eyebrow">Independent software consultancy</p>
+          <h1 id="hero-title">Web software that is <em>fast</em>, <em>accessible</em> and built to last.</h1>
+          <p class="hero-lede">We help teams turn an idea into a dependable web app — from shaping the first version to shipping, hosting and improving it. We build and run apps of our own, so our advice comes from software that is live today.</p>
+          <div class="hero-actions">
+            <a class="button" href="mailto:support@madebyfavor.com?subject=Project%20enquiry">Start a project</a>
+            <a class="button secondary" href="#work">See our work</a>
+          </div>
+          <ul class="hero-points" aria-label="At a glance">
+            <li>Five live apps</li>
+            <li>No accounts or tracking</li>
+            <li>Accessibility built in</li>
+          </ul>
         </div>
-      </div>
-      <div class="puzzle-mark" aria-label="Abstract sliding puzzle illustration">
-        <span class="tile strong"></span><span class="tile"></span><span class="tile"></span>
-        <span class="tile"></span><span class="tile strong"></span><span class="tile open"></span>
-        <span class="tile"></span><span class="tile"></span><span class="tile strong"></span>
+        <div class="mosaic" aria-hidden="true">
+          <span class="tile app-langto">L</span>
+          <span class="tile app-playto">P</span>
+          <span class="tile blank"></span>
+          <span class="tile app-devprep">D</span>
+          <span class="tile brand-tile">
+            <svg viewBox="0 0 32 32" focusable="false"><path d="M12.5 25V13a5 5 0 0 1 5-5H21M8.5 15.5h10" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="19" y="19.5" width="5.5" height="5.5" rx="1.5" fill="currentColor"/></svg>
+          </span>
+          <span class="tile app-verserecall">V</span>
+          <span class="tile blank"></span>
+          <span class="tile app-sortile">S</span>
+          <span class="tile blank"></span>
+        </div>
       </div>
     </section>
 
-    <section id="apps" class="work" aria-labelledby="apps-title">
-      <div class="section-heading">
-        <h2 id="apps-title">Products made with purpose.</h2>
-        <p>Focused, polished products that do one thing well—without accounts, tracking, or unnecessary distractions.</p>
-      </div>
-      <article class="app-card">
-        <div class="app-icon" aria-hidden="true">
-          <span></span><span></span><span></span><span></span>
+    <section id="services" class="section alt" aria-labelledby="services-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Services</p>
+            <h2 id="services-title">What we can help with</h2>
+          </div>
+          <p>Bring us in for a focused piece of work or for the whole journey. We work in small, visible steps so you always know what is done and what is next.</p>
         </div>
-        <div class="app-details">
-          <h3>Sortile</h3>
-          <p>A calm sliding-block colour puzzle with free play, a fresh daily challenge, and handcrafted levels.</p>
-          <div class="app-meta">
-            <span class="tag">Free</span>
-            <span class="tag">No ads</span>
-            <span class="tag">Works offline</span>
+        <ul class="card-grid">
+          <li class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M5.6 5.6l2.1 2.1M3 12h3M18.4 5.6l-2.1 2.1M21 12h-3"/><path d="M9 18h6M10 21h4M12 9a4 4 0 0 0-2 7.5V18h4v-1.5A4 4 0 0 0 12 9z"/></svg></span>
+            <h3>Product strategy</h3>
+            <p>Clarify the problem, the people it is for and the smallest version worth building. You get a clear scope, a clickable prototype and a realistic plan.</p>
+          </li>
+          <li class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M8 21h8"/></svg></span>
+            <h3>Web &amp; PWA apps</h3>
+            <p>Responsive, installable web apps that load quickly, work offline where it matters and keep data on the device unless there is a reason not to.</p>
+          </li>
+          <li class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a5 5 0 1 1 .9-9.9A6 6 0 0 1 19 10a4 4 0 0 1-1 8z"/></svg></span>
+            <h3>Cloud &amp; delivery</h3>
+            <p>Simple, low-cost hosting, automated builds and tests, and release pipelines on GitHub Actions and Azure — so shipping is routine, not risky.</p>
+          </li>
+          <li class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span>
+            <h3>AI-enabled features</h3>
+            <p>Practical uses of language models, text-to-speech and speech input — designed with clear limits, sensible costs and a fallback when the model is wrong.</p>
+          </li>
+          <li class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="1.8"/><path d="M5 8l7 1.5L19 8M12 9.5V14M12 14l-3.5 6.5M12 14l3.5 6.5"/></svg></span>
+            <h3>Accessibility</h3>
+            <p>Audits and fixes against WCAG 2.2 AA: keyboard support, screen-reader semantics, colour contrast and reduced motion — with automated checks so it stays fixed.</p>
+          </li>
+          <li class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg></span>
+            <h3>Modernisation</h3>
+            <p>Take an ageing site or app to a modern, maintainable stack in stages — improving speed, security and ease of change without a risky big-bang rewrite.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="process" class="section" aria-labelledby="process-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">How we work</p>
+            <h2 id="process-title">Small steps, shipped often</h2>
+          </div>
+          <p>Every engagement follows the same simple rhythm. You see working software early and can change direction at any point.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <h3>Discover</h3>
+            <p>A short conversation about your goals, users and constraints. We agree what success looks like and what is out of scope.</p>
+          </li>
+          <li>
+            <h3>Shape</h3>
+            <p>We turn the idea into a scoped plan and a prototype you can click through, so decisions are made on something real.</p>
+          </li>
+          <li>
+            <h3>Build</h3>
+            <p>Working software in short increments, with automated tests and a live preview you can try after every change.</p>
+          </li>
+          <li>
+            <h3>Launch &amp; hand over</h3>
+            <p>We ship to production, document how it all fits together and hand over everything — or stay on to keep improving it.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="work" class="section alt" aria-labelledby="work-title">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Portfolio</p>
+            <h2 id="work-title">Apps we design, build and run</h2>
+          </div>
+          <p>Our own products are where we prove ideas before recommending them. Each one is live, free to try and keeps your data in your browser — no accounts and no tracking.</p>
+        </div>
+        <ul class="work-list">
+          <li class="case">
+            <span class="tile app-langto" aria-hidden="true">L</span>
+            <div>
+              <p class="case-kicker">Language learning</p>
+              <h3>Langto</h3>
+              <p class="case-summary">Learn to speak German, Spanish and French, with a structured path from A1 to C2, spoken audio and speaking practice.</p>
+              <a class="button secondary" href="https://langto.madebyfavor.com/">Visit Langto<span class="visually-hidden"> (opens langto.madebyfavor.com)</span></a>
+            </div>
+            <div class="case-shows">
+              <h4>What it demonstrates</h4>
+              <ul>
+                <li>Text-to-speech audio with Azure AI Speech</li>
+                <li>In-browser speech practice</li>
+                <li>A large, levelled curriculum across three languages</li>
+              </ul>
+            </div>
+          </li>
+          <li class="case">
+            <span class="tile app-playto" aria-hidden="true">P</span>
+            <div>
+              <p class="case-kicker">Music practice</p>
+              <h3>Playto</h3>
+              <p class="case-summary">Learn keyboard, guitar, bass and alto saxophone through 348 lessons, with a microphone tuner and MIDI keyboard support.</p>
+              <a class="button secondary" href="https://playto.madebyfavor.com/">Visit Playto<span class="visually-hidden"> (opens playto.madebyfavor.com)</span></a>
+            </div>
+            <div class="case-shows">
+              <h4>What it demonstrates</h4>
+              <ul>
+                <li>Real-time audio and pitch detection from the microphone</li>
+                <li>Web MIDI input from connected instruments</li>
+                <li>Structured content for four instruments</li>
+              </ul>
+            </div>
+          </li>
+          <li class="case">
+            <span class="tile app-devprep" aria-hidden="true">D</span>
+            <div>
+              <p class="case-kicker">Interview preparation</p>
+              <h3>DevPREP</h3>
+              <p class="case-summary">Prepare for software engineer and senior engineer interviews with 110 runnable data-structures and algorithms problems in JavaScript and Python, system design cases, ML and AI/LLM tracks, mock interviews and flashcards.</p>
+              <a class="button secondary" href="https://devprep.madebyfavor.com/">Visit DevPREP<span class="visually-hidden"> (opens devprep.madebyfavor.com)</span></a>
+            </div>
+            <div class="case-shows">
+              <h4>What it demonstrates</h4>
+              <ul>
+                <li>Running JavaScript and Python code in the browser</li>
+                <li>Problems you can run and check without leaving the page</li>
+                <li>Mixed learning formats: problems, cases, mocks and flashcards</li>
+              </ul>
+            </div>
+          </li>
+          <li class="case">
+            <span class="tile app-verserecall" aria-hidden="true">V</span>
+            <div>
+              <p class="case-kicker">Scripture memorisation</p>
+              <h3>Verse Recall</h3>
+              <p class="case-summary">Memorise Bible verses through short puzzles and spaced review, using the full 66-book Bible in the World English Bible (British) and Berean Standard Bible translations.</p>
+              <a class="button secondary" href="https://verserecall.madebyfavor.com/">Visit Verse Recall<span class="visually-hidden"> (opens verserecall.madebyfavor.com)</span></a>
+            </div>
+            <div class="case-shows">
+              <h4>What it demonstrates</h4>
+              <ul>
+                <li>Spaced review that brings verses back at the right time</li>
+                <li>A complete Bible text, in two translations, served from a static site</li>
+                <li>Puzzle-based memorisation exercises</li>
+              </ul>
+            </div>
+          </li>
+          <li class="case">
+            <span class="tile app-sortile" aria-hidden="true">S</span>
+            <div>
+              <p class="case-kicker">Puzzle game</p>
+              <h3>Sortile</h3>
+              <p class="case-summary">A calm sliding colour puzzle with free play, handcrafted levels and a fresh daily challenge.</p>
+              <a class="button secondary" href="https://sortile.madebyfavor.com/">Play Sortile<span class="visually-hidden"> (opens sortile.madebyfavor.com)</span></a>
+            </div>
+            <div class="case-shows">
+              <h4>What it demonstrates</h4>
+              <ul>
+                <li>Offline-capable progressive web app</li>
+                <li>A daily challenge alongside free play</li>
+                <li>Puzzle game logic with handcrafted levels</li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="about" class="section" aria-labelledby="about-title">
+      <div class="shell about-grid">
+        <div>
+          <p class="eyebrow">About</p>
+          <h2 id="about-title">We build what we recommend</h2>
+          <div class="prose">
+            <p>Made by Favor is an independent software consultancy. We help organisations plan and build web software, and we design, build and run our own apps — for language learning, music practice, interview preparation, scripture memorisation and puzzles.</p>
+            <p>Running real products end to end keeps our skills practical. The habits we use on our own apps are the ones we bring to yours.</p>
           </div>
         </div>
-        <a class="button" href="https://sortile.madebyfavor.com">Play Sortile</a>
-      </article>
+        <ul class="principles" aria-label="Principles">
+          <li><strong>Plain, proven technology</strong><span>We choose tools your team can maintain, not whatever is newest.</span></li>
+          <li><strong>Accessible and fast by default</strong><span>Keyboard support, good contrast and quick load times are part of the build, not an extra.</span></li>
+          <li><strong>Privacy first</strong><span>Collect only what is needed. Our own apps have no accounts, adverts or tracking.</span></li>
+          <li><strong>Honest about trade-offs</strong><span>You hear about risks, costs and simpler options early — including when not to build something.</span></li>
+        </ul>
+      </div>
     </section>
 
-    <section class="contact" aria-labelledby="consulting-title">
-      <div>
-        <p class="eyebrow">Consultancy</p>
-        <h2 id="consulting-title">From idea to dependable product.</h2>
-        <p>We help teams shape product direction, simplify complex experiences, and build practical software for web, mobile, and cloud.</p>
+    <section id="contact" class="section" aria-labelledby="contact-title">
+      <div class="shell">
+        <div class="contact-panel">
+          <div>
+            <p class="eyebrow">Contact</p>
+            <h2 id="contact-title">Tell us about your project</h2>
+            <p>Send a few lines about what you want to build or improve, your timeline and any constraints. We will reply by email. The same address handles support and privacy questions about our apps.</p>
+          </div>
+          <div class="contact-actions">
+            <a class="button" href="mailto:support@madebyfavor.com?subject=Project%20enquiry">Email us</a>
+            <a class="contact-email" href="mailto:support@madebyfavor.com">support@madebyfavor.com</a>
+          </div>
+        </div>
       </div>
-      <a class="button" href="mailto:support@madebyfavor.com?subject=Consultancy%20enquiry">Start a conversation</a>
-    </section>
-
-    <section class="contact" aria-labelledby="contact-title">
-      <div>
-        <h2 id="contact-title">Need a hand?</h2>
-        <p>For app support, privacy questions, or general enquiries, email us and we’ll get back to you.</p>
-      </div>
-      <a class="button" href="mailto:support@madebyfavor.com">support@madebyfavor.com</a>
     </section>
   </main>
 
-  <footer class="shell site-footer">
-    <span>© 2026 Made by Favor</span>
-    <nav class="footer-links" aria-label="Footer">
-      <a href="https://sortile.madebyfavor.com/privacy.html">Sortile privacy</a>
-      <a href="mailto:support@madebyfavor.com">Support</a>
-    </nav>
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/" aria-label="Made by Favor — home">
+            <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+              <rect width="32" height="32" rx="8" fill="currentColor"/>
+              <path class="mark-f" d="M12.5 25V13a5 5 0 0 1 5-5H21M8.5 15.5h10" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect class="mark-dot" x="19" y="19.5" width="5.5" height="5.5" rx="1.5"/>
+            </svg>
+            <span>Made by Favor</span>
+          </a>
+          <p>Independent software consultancy for fast, accessible web apps.</p>
+        </div>
+        <nav aria-labelledby="footer-company">
+          <h2 id="footer-company">Company</h2>
+          <ul>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#process">How we work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="mailto:support@madebyfavor.com">Contact</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="footer-apps">
+          <h2 id="footer-apps">Apps</h2>
+          <ul>
+            <li><a href="https://langto.madebyfavor.com/">Langto</a></li>
+            <li><a href="https://playto.madebyfavor.com/">Playto</a></li>
+            <li><a href="https://devprep.madebyfavor.com/">DevPREP</a></li>
+            <li><a href="https://verserecall.madebyfavor.com/">Verse Recall</a></li>
+            <li><a href="https://sortile.madebyfavor.com/">Sortile</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="footer-privacy">
+          <h2 id="footer-privacy">Privacy</h2>
+          <ul>
+            <li><a href="/privacy.html">Privacy policy</a></li>
+            <li><a href="https://sortile.madebyfavor.com/privacy.html">Sortile privacy</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-base">
+        <span>© <span data-year>2026</span> Made by Favor</span>
+        <span>No cookies, analytics or tracking on this site.</span>
+      </div>
+    </div>
   </footer>
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const themeButton = document.querySelector("#theme-toggle");
-      const styleButton = document.querySelector("#style-toggle");
-      const savedTheme = localStorage.getItem("madebyfavor-theme");
-      const savedStyle = localStorage.getItem("madebyfavor-style") || "editorial";
 
-      if (savedTheme) root.dataset.theme = savedTheme;
-      root.dataset.style = savedStyle;
-
-      const updateLabels = () => {
-        const dark = root.dataset.theme === "dark";
-        const technical = root.dataset.style === "technical";
-        themeButton.setAttribute("aria-label", dark ? "Use light theme" : "Use dark theme");
-        themeButton.setAttribute("aria-pressed", String(dark));
-        styleButton.setAttribute("aria-label", technical ? "Use warm visual style" : "Use crisp visual style");
-        styleButton.setAttribute("aria-pressed", String(technical));
-      };
-
-      themeButton.addEventListener("click", () => {
-        root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
-        localStorage.setItem("madebyfavor-theme", root.dataset.theme);
-        updateLabels();
-      });
-
-      styleButton.addEventListener("click", () => {
-        root.dataset.style = root.dataset.style === "technical" ? "editorial" : "technical";
-        localStorage.setItem("madebyfavor-style", root.dataset.style);
-        updateLabels();
-      });
-
-      updateLabels();
-    })();
-  </script>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
