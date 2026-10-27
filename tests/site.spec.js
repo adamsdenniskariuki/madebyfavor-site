@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 const PAGES = ["/", "/privacy.html"];
 const VIEWPORTS = [
@@ -14,6 +15,7 @@ const APP_URLS = [
   "https://devprep.madebyfavor.com/",
   "https://verserecall.madebyfavor.com/",
   "https://sortile.madebyfavor.com/",
+  "https://investo.madebyfavor.com/",
 ];
 
 const setPrefs = (page, { mode, theme }) =>
@@ -50,7 +52,8 @@ test.describe("layout", () => {
         await section.scrollIntoViewIfNeeded();
         await expect(section).toBeVisible();
       }
-      await expect(page.locator(".case")).toHaveCount(5);
+      await expect(page.locator(".case")).toHaveCount(APP_URLS.length);
+      await expect(page.locator(".in-dev li")).toHaveCount(2);
       await expect(page.locator(".site-nav")).toBeVisible();
       // Nav links must fit or scroll inside the nav, never widen the page.
       const navOverflow = await page.evaluate(
@@ -62,12 +65,17 @@ test.describe("layout", () => {
 });
 
 test.describe("links", () => {
-  test("portfolio links to all five apps", async ({ page }) => {
+  test("portfolio links to every live app and the count matches", async ({ page }) => {
     await page.goto("/");
     const hrefs = await page.locator("#work .case a.button").evaluateAll((els) =>
       els.map((a) => a.href),
     );
     expect(hrefs.sort()).toEqual([...APP_URLS].sort());
+    await expect(page.locator(".hero-points")).toContainText("Six live apps");
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /six live apps/);
+    const jsonLd = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent());
+    const list = jsonLd["@graph"].find((n) => n["@type"] === "ItemList");
+    expect(list.itemListElement.map((i) => i.item.url).sort()).toEqual([...APP_URLS].sort());
   });
 
   test("every external link returns 200", async ({ page, request }) => {
@@ -106,6 +114,7 @@ test.describe("links", () => {
       "/sitemap.xml",
       "/favicon.svg",
       "/logo.svg",
+      "/logo-dark.svg",
       "/og.png",
       "/apple-touch-icon.png",
       "/CNAME",
@@ -316,11 +325,91 @@ test.describe("keyboard and motion", () => {
     const motion = await page.evaluate(() => ({
       scroll: getComputedStyle(document.documentElement).scrollBehavior,
       animation: getComputedStyle(document.querySelector(".mosaic .tile")).animationName,
+      drop: getComputedStyle(document.querySelector(".brand-tile .logo-drop")).animationName,
     }));
-    expect(motion).toEqual({ scroll: "auto", animation: "none" });
+    expect(motion).toEqual({ scroll: "auto", animation: "none", drop: "none" });
 
     await page.emulateMedia({ reducedMotion: "no-preference" });
     const scroll = await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior);
     expect(scroll).toBe("smooth");
   });
+});
+
+test.describe("logo", () => {
+  const fills = (page) =>
+    page.evaluate(() =>
+      ["tile", "a", "b", "c", "d"].map((k) =>
+        getComputedStyle(document.querySelector(`.site-header .brand-mark .logo-${k}`)).fill,
+      ),
+    );
+  const LIGHT = ["rgb(244, 241, 234)", "rgb(58, 54, 184)", "rgb(108, 99, 255)", "rgb(255, 122, 89)", "rgb(255, 201, 77)"];
+  const DARK = ["rgb(30, 27, 58)", "rgb(196, 194, 255)", "rgb(143, 136, 255)", "rgb(255, 148, 116)", "rgb(255, 213, 107)"];
+
+  for (const theme of THEMES) {
+    test(`header logo follows the colour mode, not the ${theme} theme`, async ({ page }) => {
+      await setPrefs(page, { mode: "light", theme });
+      await page.goto("/");
+      expect(await fills(page)).toEqual(LIGHT);
+      await page.locator("#mode-toggle").click();
+      await expect(page.locator("html")).toHaveAttribute("data-scheme", "dark");
+      const dark = await fills(page);
+      expect(dark).toEqual(DARK);
+
+      // Each dark block stands out from the tile (non-text contrast >= 3:1).
+      const ratios = await page.evaluate((colours) => {
+        const lum = (c) => {
+          const [r, g, b] = c.match(/\d+/g).map(Number).map((v) => {
+            v /= 255;
+            return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+          });
+          return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        };
+        const tile = lum(colours[0]);
+        return colours.slice(1).map((c) => (lum(c) + 0.05) / (tile + 0.05));
+      }, dark);
+      for (const r of ratios) expect(r).toBeGreaterThanOrEqual(3);
+    });
+  }
+
+  test("logo files match the brand palette", async ({ request }) => {
+    const light = await (await request.get("/logo.svg")).text();
+    expect(light).toContain('fill="#f4f1ea"');
+    expect(light).toContain('fill="#ffc94d"');
+    const dark = await (await request.get("/logo-dark.svg")).text();
+    expect(dark).toContain('fill="#1e1b3a"');
+    const favicon = await (await request.get("/favicon.svg")).text();
+    expect(favicon).toContain("prefers-color-scheme: dark");
+    expect(favicon).toContain('viewBox="0 0 32 32"');
+  });
+
+  test("yellow block drops in on first load only", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto("/");
+    const drop = () =>
+      page.evaluate(() => getComputedStyle(document.querySelector(".brand-tile .logo-drop")).animationName);
+    expect(await drop()).toBe("drop");
+    await page.reload();
+    expect(await drop()).toBe("none");
+  });
+});
+
+test.describe("axe (WCAG 2.2 A/AA) at 360px", () => {
+  for (const mode of MODES) {
+    for (const path of PAGES) {
+      test(`${path} has no axe violations in ${mode} mode`, async ({ page }) => {
+        await page.setViewportSize({ width: 360, height: 780 });
+        await page.emulateMedia({ reducedMotion: "reduce" });
+        await setPrefs(page, { mode });
+        await page.goto(path);
+        await expect(page.locator("html")).toHaveAttribute("data-scheme", mode);
+        const { violations } = await new AxeBuilder({ page })
+          .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+          .analyze();
+        const summary = violations.map(
+          (v) => `${v.id}: ${v.help} (${v.nodes.map((n) => n.target.join(" ")).join(", ")})`,
+        );
+        expect(summary, summary.join("\n")).toEqual([]);
+      });
+    }
+  }
 });

@@ -1,15 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Simplified for 16/32 px: thicker blocks, tighter radii, smaller margins. -->
   <style>
-    .bg { fill: #3a36b8; }
-    .fg { stroke: #ffffff; }
-    .dot { fill: #ffffff; }
+    .t { fill: #f4f1ea; } .a { fill: #3a36b8; } .b { fill: #6c63ff; } .c { fill: #ff7a59; } .d { fill: #ffc94d; }
     @media (prefers-color-scheme: dark) {
-      .bg { fill: #a9a6ff; }
-      .fg { stroke: #0f1015; }
-      .dot { fill: #0f1015; }
+      .t { fill: #1e1b3a; } .a { fill: #c4c2ff; } .b { fill: #8f88ff; } .c { fill: #ff9474; } .d { fill: #ffd56b; }
     }
   </style>
-  <rect class="bg" width="32" height="32" rx="8"/>
-  <path class="fg" d="M12.5 25V13a5 5 0 0 1 5-5H21M8.5 15.5h10" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect class="dot" x="19" y="19.5" width="5.5" height="5.5" rx="1.5"/>
+  <rect class="t" width="32" height="32" rx="7"/>
+  <rect class="a" x="5" y="4.5" width="22" height="7" rx="1.5"/>
+  <rect class="b" x="5" y="13" width="15" height="7" rx="1.5"/>
+  <rect class="c" x="5" y="21.5" width="7" height="7" rx="1.5"/>
+  <rect class="d" x="16.5" y="22" width="6" height="6" rx="1.2" transform="rotate(18 19.5 25)"/>
 </svg>

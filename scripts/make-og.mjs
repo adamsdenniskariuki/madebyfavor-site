@@ -32,14 +32,15 @@ const ogHtml = `<!doctype html><html><head><meta charset="utf-8"><style>
       <span style="background:#d1fae5;color:#064e3b">D</span>
       <span style="background:#ede9fe;color:#4c1d95">V</span>
       <span style="background:#fce7f3;color:#831843">S</span>
+      <span style="background:#dcfce7;color:#14532d">I</span>
     </div>
   </div>
 </body></html>`;
 
 const iconHtml = `<!doctype html><html><head><style>
-  * { margin: 0; } body { width: 180px; height: 180px; background: #3a36b8; }
+  * { margin: 0; } body { width: 180px; height: 180px; background: #f4f1ea; }
   svg { width: 180px; height: 180px; display: block; }
-</style></head><body>${logo.replace('rx="8"', 'rx="0"')}</body></html>`;
+</style></head><body>${logo.replace('rx="28"', 'rx="0"')}</body></html>`;
 
 const browser = await chromium.launch();
 try {
