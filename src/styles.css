@@ -13,6 +13,13 @@
   --muted: #4b4a52;
   --shadow: 0 1px 2px rgb(23 23 28 / 6%), 0 12px 32px rgb(23 23 28 / 7%);
   --header-bg: rgb(247 246 242 / 92%);
+  /* Logo palette: fixed per scheme, independent of the accent theme */
+  --logo-tile: #f4f1ea;
+  --logo-edge: #d9d6cc;
+  --logo-a: #3a36b8;
+  --logo-b: #6c63ff;
+  --logo-c: #ff7a59;
+  --logo-d: #ffc94d;
 }
 
 [data-scheme="dark"] {
@@ -26,6 +33,12 @@
   --muted: #a9abbb;
   --shadow: 0 1px 2px rgb(0 0 0 / 40%), 0 12px 32px rgb(0 0 0 / 35%);
   --header-bg: rgb(15 16 21 / 92%);
+  --logo-tile: #1e1b3a;
+  --logo-edge: #34306a;
+  --logo-a: #c4c2ff;
+  --logo-b: #8f88ff;
+  --logo-c: #ff9474;
+  --logo-d: #ffd56b;
 }
 
 /* ---------- Tokens: accent themes (all pairs meet WCAG AA) ---------- */
@@ -181,9 +194,12 @@ p { margin: 0; text-wrap: pretty; }
   text-decoration: none;
 }
 .brand:hover { color: var(--text); }
-.brand-mark { width: 2.1rem; height: 2.1rem; color: var(--accent); flex: none; }
-.brand-mark .mark-f { stroke: var(--accent-fg); }
-.brand-mark .mark-dot { fill: var(--accent-fg); }
+.brand-mark { width: 2.3rem; height: 2.3rem; flex: none; }
+.logo-tile { fill: var(--logo-tile); stroke: var(--logo-edge); stroke-width: 2; }
+.logo-a { fill: var(--logo-a); }
+.logo-b { fill: var(--logo-b); }
+.logo-c { fill: var(--logo-c); }
+.logo-d { fill: var(--logo-d); }
 
 .site-nav ul {
   display: flex;
@@ -374,8 +390,8 @@ main { display: block; }
   border: 2px dashed var(--border-strong);
   background: transparent;
 }
-.mosaic .tile.brand-tile { background: var(--accent); color: var(--accent-fg); }
-.mosaic .tile.brand-tile svg { width: 60%; height: 60%; }
+.mosaic .tile.brand-tile { overflow: visible; }
+.mosaic .tile.brand-tile svg { width: 100%; height: 100%; overflow: visible; }
 
 /* Per-app tiles: fixed tint/ink pairs (>= 7:1) independent of theme */
 .app-langto { background: #dbeafe; color: #1e3a8a; }
@@ -383,6 +399,7 @@ main { display: block; }
 .app-devprep { background: #d1fae5; color: #064e3b; }
 .app-verserecall { background: #ede9fe; color: #4c1d95; }
 .app-sortile { background: #fce7f3; color: #831843; }
+.app-investo { background: #dcfce7; color: #14532d; }
 
 /* ---------- Services ---------- */
 .card-grid {
@@ -513,6 +530,21 @@ main { display: block; }
   height: 2px;
   background: var(--accent);
 }
+.in-dev {
+  margin-top: 1.25rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius);
+}
+.in-dev h3 {
+  margin-bottom: .6rem;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.in-dev ul { display: grid; gap: .4rem; margin: 0; padding: 0; list-style: none; color: var(--muted); }
+.in-dev strong { color: var(--text); }
 
 /* ---------- About ---------- */
 .about-grid {
@@ -658,6 +690,15 @@ main { display: block; }
   @keyframes rise {
     from { opacity: 0; transform: translateY(8px) scale(.97); }
     to { opacity: 1; transform: none; }
+  }
+  /* The yellow block drops into place once per browser session (data-intro is set in <head>). */
+  [data-intro] .brand-tile .logo-drop { animation: drop .9s cubic-bezier(.35, 0, .3, 1) .6s both; }
+  @keyframes drop {
+    0% { opacity: 0; transform: translateY(-78px); }
+    20% { opacity: 1; }
+    70% { transform: translateY(3px); }
+    85% { transform: translateY(-2px); }
+    100% { opacity: 1; transform: none; }
   }
 }
 

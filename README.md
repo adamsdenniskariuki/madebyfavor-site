@@ -29,7 +29,7 @@ npm run build                     # outputs dist/
 npm test                          # Playwright: layout, links, contrast, themes, keyboard
 ```
 
-The link test requests every external link (including all five apps), so it
+The link test requests every external link (including all six apps), so it
 needs network access.
 
 ## Structure
